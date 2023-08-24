@@ -177,11 +177,8 @@ load-nvmrc
 # ROS
 if [ -f '/opt/ros/noetic/setup.zsh' ]; then source '/opt/ros/noetic/setup.zsh'; fi
 
-# Snap
-export PATH="$PATH:/snap/bin"
-
 # Esp32 Rust
-source "$HOME/export-esp.sh"
+[[ -f "$HOME/export-esp.sh"  ]] && source "$HOME/export-esp.sh"
 
 # Ansible
 # eval $(register-python-argcomplete ansible)
