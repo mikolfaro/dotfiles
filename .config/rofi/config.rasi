@@ -1,0 +1,22 @@
+configuration {
+  modi: "window,run,ssh,drun,combi";
+  combi-modi: "drun,run,window,ssh";
+  terminal: "alacritty";
+
+  dpi: 120;
+  font: "Fira Code 14";
+  show-icons: true;
+  matching: "fuzzy";
+  line: 8;
+  column: 1;
+  bw: 0;
+  padding: 600;
+  hide-scroolbar: true;
+  width: 600;
+  line-margin: 14;
+  // color-window: "argb:fc282a36, #ebdbb2, argb:00000000";
+  fullscreen: true;
+  transparency: true;
+}
+
+@theme "dracula1"
