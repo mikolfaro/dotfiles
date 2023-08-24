@@ -1,0 +1,132 @@
+# This playbook is meant to provision a new computer.
+# Run with: ansible-playbook -i , provision.yml
+
+---
+- name: Provision a machine.
+  hosts: 127.0.0.1
+  become_method: sudo
+  connection: local
+  tasks:
+    - name: Get the username running the deploy
+      become: false
+      local_action: command whoami
+      register: user
+    - debug: 
+        msg: "Default user is {{ user.stdout }}"
+    - name: Install git, SSH server and zsh
+      become: yes
+      ansible.builtin.package:
+        name: git,zsh,openssh-server
+        state: present
+    - name: Set ZSH for user
+      become: false
+      ansible.builtin.user:  
+        name: "{{ user.stdout }}"
+        shell: "/bin/zsh"
+    - name: Enable SSH server
+      become: yes
+      ansible.builtin.systemd:
+        name: sshd
+        enabled: true
+        state: started
+    - name: Disable Root Login
+      become: yes
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: "PermitRootLogin no"
+        state: present
+        backup: yes
+      notify:
+        - restart ssh
+
+    - debug:
+        msg: Setup dev tools
+    - name: Install Firefox Dev Edition repository
+      become: yes
+      community.general.copr:
+        chroot: fedora-{{ansible_distribution_version}}-{{ansible_architecture}} # Nobara is Fedora
+        name: the4runner/firefox-dev
+        state: enabled
+    - name: Install gitflow repository
+      become: yes
+      community.general.copr:
+        chroot: fedora-{{ansible_distribution_version}}-{{ansible_architecture}} # Nobara is Fedora
+        name: elegos/gitflow
+        state: enabled
+    - name: Add Remi's PHP repository
+      become: yes
+      ansible.builtin.dnf:
+        name: https://rpms.remirepo.net/fedora/remi-release-{{ansible_distribution_version}}.rpm
+        state: present
+    # TODO Setup Codium repository
+    # https://vscodium.com/#install
+    - name: Install LEMP stack, dev browsers, Ulauncher, VSCode
+      become: yes
+      ansible.builtin.dnf:
+        name:
+          - chromium
+          - firefox-dev
+          - gitflow
+          - ulauncher
+          - mariadb
+          - nginx
+          - php74-php-fpm
+          - php74-php-cli
+          - php82-php-fpm
+          - php82-php-cli
+          - codium
+          - filezilla
+        state: present
+    # TODO
+    # - VSCodium extensions
+    # - ULauncher
+    #   - enable ulauncher shortcut
+    #   - start ulauncher at login
+    # - PHP-FPM
+    #   - Set listen to localhost:9174/9182
+    #   - Set user/group to current user
+    # - Intellij IDEA
+    # - Docker
+    #   - install
+    #   - add current user to docker group
+    # - NVM
+    # - NPM
+    # - Node (latest - LTS)
+
+    - debug:
+        msg: Setup some bs
+
+    - name: Install GIMP, Spotify
+      community.general.flatpak:
+        name:
+          - com.spotify.Client
+          - org.gimp.GIMP
+        method: user
+    # TODO
+    # - GIMP
+    # - Slack
+
+    # - debug:
+    #     msg: Fix NVIDIA GPU
+    
+    # - name: Install nvidia drivers
+    #   become: yes
+    #   ansible.builtin.package:
+    #     name: 
+    #       - akmod-nvidia
+    #     state: present
+    # - name: Blacklist noveau module
+    #   become: yes
+    #   community.general.modprobe:
+    #     name: noveau
+    #     state: absent
+    #     params: "modeset=0"
+    #     persistent: absent
+
+  handlers:
+    - name: restart ssh
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
+
