@@ -49,7 +49,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -158,7 +158,13 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # lock screen
-bindsym $mod+Ctrl+l exec "i3lock -c 282a36"
+bindsym $mod+Ctrl+l exec "i3lock -c 2b2b2b"
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -189,27 +195,27 @@ bindsym $mod+r mode "resize"
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          #44475A		    #44475A	       #F8F8F2              #00ff00
-client.unfocused        #282A36             #282A36            #BFBFBF              #00ff00
-client.focused_inactive #282A36             #282A36            #BFBFBF              #00ff00
+client.focused          #3C3F41             #2B2B2B            #A9B7C6              #A9B7C6
+client.unfocused        #2B2B2B             #2B2B2B            #A9B7C6              #A9B7C6
+client.focused_inactive #2B2B2B             #2B2B2B            #A9B7C6              #A9B7C6
 client.urgent           #FF5555             #FF5555            #F8F8F2              #00ff00
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-	colors {
-		background #282A36
-		statusline #F8F8F2
-		separator  #44475A
-
-		focused_workspace  #44475A #44475A #F8F8F2
-		active_workspace   #282A36 #44475A #F8F8F2
-		inactive_workspace #282A36 #282A36 #BFBFBF
-		urgent_workspace   #FF5555 #FF5555 #F8F8F2
-		binding_mode       #FF5555 #FF5555 #F8F8F2
-	}
-}
+# bar {
+#        status_command i3status
+#	colors {
+#		background #3C3F41
+#		statusline #AFB1B3
+#		separator  #3C3F41
+#
+#		focused_workspace  #2C2E2F #2C2E2F #AFB1B3
+#		active_workspace   #2C2E2F #2C2E2F #AFB1B3
+#		inactive_workspace #3C3F41 #3C3F41 #AFB1B3
+#		urgent_workspace   #FF5555 #FF5555 #F8F8F2
+#		binding_mode       #FF5555 #FF5555 #F8F8F2
+#	}
+#}
 
 default_border pixel 4
 gaps inner 4px
@@ -218,8 +224,9 @@ smart_gaps on
 # Configs
 exec_always xrandr --output HDMI-0 --off --output DP-0 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 3840x0 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 exec_always feh --bg-scale ~/.config/wallpapers/wallpaper-left.jpg ~/.config/wallpapers/wallpaper-right.jpg
-exec picom
+exec_always killall picom ; picom
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec_always .config/polybar/launch.sh
 
 # Autostart
 exec brave-browser https://3.basecamp.com/4137112/ --new-window
@@ -227,10 +234,11 @@ exec firefox-dev
 exec /home/mikol/.joplin/Joplin.AppImage
 exec flatpak run com.slack.Slack
 exec flatpak run com.spotify.Client
-
 # Default workspaces for applications
 for_window [class="Slack"] move to workspace $ws2
 for_window [class="firefox-aurora"] move to workspace $ws2
 for_window [title="Home - Brave"] move to workspace $ws1
 for_window [class="Spotify"] move to workspace $ws10
 for_window [class="Joplin"] move to workspace $ws1
+# Remove urgency flag for applications that started
+exec sleep 1; foreach i ($(xdotool search --class .\*spotify\*)); do xdotool set_window --urgency 0 $i; done

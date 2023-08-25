@@ -52,7 +52,7 @@
     - name: Install i3-wm
       become: yes
       ansible.builtin.package:
-        name: i3-wm,i3status,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh,playerctl
+        name: i3-wm,polybar,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh,playerctl
       notify: launch SDDM
 
     - name: Install yay deps
