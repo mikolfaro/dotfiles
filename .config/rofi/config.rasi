@@ -19,4 +19,4 @@ configuration {
   transparency: true;
 }
 
-@theme "dracula1"
+@theme "darcula"

@@ -52,7 +52,7 @@
     - name: Install i3-wm
       become: yes
       ansible.builtin.package:
-        name: i3-wm,i3status,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh
+        name: i3-wm,i3status,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh,playerctl
       notify: launch SDDM
 
     - name: Install yay deps
@@ -103,6 +103,9 @@
       shell: echo Y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" vscodium-bin
       args:
         creates: /usr/bin/codium
+
+    - name: Install VSCodium theme
+      shell: codium --install-extension dracula-theme.theme-dracula
 
   handlers:
     - name: restart ssh
