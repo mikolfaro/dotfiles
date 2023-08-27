@@ -1,126 +1,138 @@
 # This playbook is meant to provision a new computer.
-# Run with: ansible-playbook -i , provision.arch.yml --ask-become-pass
+# Run with: ansible-playbook -i hosts.yml provision.arch.yml --ask-pass --ask-become-pass
 # Install ansible using
 #   sudo pacman -Sy ansible
 
 ---
 - name: Provision a machine.
-  hosts: 127.0.0.1
+  hosts: arch-dummy
   become_method: sudo
-  connection: local
   tasks:
-    - name: Get the username running the deploy
-      become: false
-      local_action: command whoami
-      register: user
-    - debug: 
-        msg: "Default user is {{ user.stdout }}"
-    - name: Install git, SSH server and zsh
-      become: yes
-      ansible.builtin.package:
-        name: git,zsh,openssh,vim,wget,trash-cli
-        state: present
+    - name: Core Setup
+      ansible.builtin.include_role:
+        name: core
 
-    - name: Set ZSH for user
-      become: yes
-      ansible.builtin.user:  
-        name: "{{ user.stdout }}"
-        shell: "/bin/zsh"
-    - name: Enable SSH server
-      become: yes
-      ansible.builtin.systemd:
-        name: sshd
-        enabled: true
-        state: started
-    - name: Disable Root Login
-      become: yes
-      lineinfile:
-        dest: /etc/ssh/sshd_config
-        regexp: '^PermitRootLogin'
-        line: "PermitRootLogin no"
-        state: present
-        backup: yes
-      notify:
-        - restart ssh
+  # tasks:
+  #   - name: Get the username running the deploy
+  #     become: false
+  #     local_action: command whoami
+  #     register: user
+  #   - debug: 
+  #       msg: "Default user is {{ user.stdout }}"
+  #   - name: Run "pacman -Su"
+  #     become: yes
+  #     community.general.pacman:
+  #       upgrade: true
+  #   - name: Install git, SSH server and zsh
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: git,zsh,openssh
+  #       state: latest
+  #   - name: Install cli tools
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: vim,wget,trash-cli
+  #       state: latest
+  #   - name: Set ZSH for user
+  #     become: yes
+  #     ansible.builtin.user:  
+  #       name: "{{ user.stdout }}"
+  #       shell: "/bin/zsh"
+  #   - name: Enable SSH server
+  #     become: yes
+  #     ansible.builtin.systemd:
+  #       name: sshd
+  #       enabled: true
+  #       state: started
+  #   - name: Disable Root Login
+  #     become: yes
+  #     lineinfile:
+  #       dest: /etc/ssh/sshd_config
+  #       regexp: '^PermitRootLogin'
+  #       line: "PermitRootLogin no"
+  #       state: present
+  #       backup: yes
+  #     notify:
+  #       - restart ssh
 
-    - name: Install Oh-my-zsh
-      become: no
-      ansible.builtin.shell: 'sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"'
-      args:
-        creates: '/home/{{ user.stdout }}/.oh-my-zsh'
+  #   - name: Install Oh-my-zsh
+  #     become: no
+  #     ansible.builtin.shell: 'sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"'
+  #     args:
+  #       creates: '/home/{{ user.stdout }}/.oh-my-zsh'
 
-    - name: Install i3-wm
-      become: yes
-      ansible.builtin.package:
-        name: i3-wm,polybar,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh,playerctl
-      notify: launch SDDM
+  #   - name: Install yay deps
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: base-devel,git,go
+  #       state: latest
 
-    - name: Install yay deps
-      become: yes
-      ansible.builtin.package:
-        name: base-devel,git,go
-        state: latest
+  #   - name: Clone and build yay
+  #     shell: 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
+  #     args:
+  #       creates: /usr/bin/yay
 
-    - name: Clone and build yay
-      shell: 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
-      args:
-        creates: /usr/bin/yay
+  #   - name: Install i3-wm
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: i3-wm,i3status,i3lock,sddm,alacritty,xorg-xrandr,yay,rofi,ttf-fira-code,dunst,picom,ttf-jetbrains-mono,feh,playerctl
+  #     notify: launch SDDM
 
-    - name: Install basic GUI
-      become: yes
-      ansible.builtin.package:
-        name: firefox,firefox-developer-edition,keychain,bash-completion,spotify-launcher
-        state: latest
+  #   - name: Install basic GUI
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: firefox,firefox-developer-edition,keychain,bash-completion,spotify-launcher
+  #       state: latest
 
-    - name: Clone dot files
-      ansible.builtin.git:
-        repo: 'https://github.com/mikolfaro/dotfiles.git'
-        dest: '/home/{{ user.stdout }}/dotfiles'
+  #   - name: Clone dot files
+  #     ansible.builtin.git:
+  #       repo: 'https://github.com/mikolfaro/dotfiles.git'
+  #       dest: '/home/{{ user.stdout }}/dotfiles'
       
-    - name: Setup dot files
-      ansible.builtin.copy:
-        src: '/home/{{ user.stdout }}/dotfiles/'
-        dest: '/home/{{ user.stdout }}/'
-        remote_src: true
+  #   - name: Setup dot files
+  #     ansible.builtin.copy:
+  #       src: '/home/{{ user.stdout }}/dotfiles/'
+  #       dest: '/home/{{ user.stdout }}/'
+  #       remote_src: true
 
-    - name: Dev tools
-      become: yes
-      ansible.builtin.package:
-        name: firefox,firefox-developer-edition,keychain,fontforge
-        state: latest
+  #   - name: Dev tools
+  #     become: yes
+  #     ansible.builtin.package:
+  #       name: firefox,firefox-developer-edition,keychain,fontforge
+  #       state: latest
 
-    - name: Install gitflow
-      shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" gitflow-avh
-      args:
-        creates: /usr/bin/git-flow
+  #   - name: Install gitflow
+  #     shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" gitflow-avh
+  #     args:
+  #       creates: /usr/bin/git-flow
 
-    - name: Install brave browser
-      shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" brave-bin
-      args:
-        creates: /usr/bin/brave
+  #   - name: Install brave browser
+  #     shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" brave-bin
+  #     args:
+  #       creates: /usr/bin/brave
 
-    - name: Install VSCodium
-      shell: echo Y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" vscodium-bin
-      args:
-        creates: /usr/bin/codium
+  #   - name: Install VSCodium
+  #     shell: echo Y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" vscodium-bin
+  #     args:
+  #       creates: /usr/bin/codium
 
-    - name: Install VSCodium theme
-      shell: codium --install-extension dracula-theme.theme-dracula
+  #   - name: Install VSCodium theme
+  #     shell: codium --install-extension dracula-theme.theme-dracula
 
-  handlers:
-    - name: restart ssh
-      become: yes
-      ansible.builtin.systemd:
-        name: sshd
-        state: restarted
+  # handlers:
+  #   - name: restart ssh
+  #     become: yes
+  #     ansible.builtin.systemd:
+  #       name: sshd
+  #       state: restarted
 
-    - name: reboot
-      become: yes
-      command: reboot
+  #   - name: reboot
+  #     become: yes
+  #     command: reboot
 
-    - name: launch SDDM
-      become: yes
-      ansible.builtin.systemd:
-        name: sddm
-        state: started
-        enabled: true
+  #   - name: launch SDDM
+  #     become: yes
+  #     ansible.builtin.systemd:
+  #       name: sddm
+  #       state: started
+  #       enabled: true

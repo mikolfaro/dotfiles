@@ -8,11 +8,27 @@
   # debug:
     # msg: "Distribution is {{ ansible_distribution }}"
 
-- name: Install git, SSH server and zsh
+- name: Install git and zsh
   become: yes
   ansible.builtin.package:
-    name: git,zsh,openssh-server,neofetch
+    name: git,zsh,neofetch
     state: latest
+
+- name: Install SSH server - Arch
+  become: yes
+  ansible.builtin.package:
+    name: openssh-server
+    state: latest
+  when: ansible_facts['distribution'] == "Arch" 
+
+- name: Install SSH server - Debian
+  become: yes
+  ansible.builtin.package:
+    name: openssh-server
+    state: latest
+  when: ansible_facts['distribution'] == "Debian" or
+    ansible_facts['distribution'] == "Raspbian"
+
 - name: Enable SSH server
   become: yes
   ansible.builtin.systemd:
