@@ -1,0 +1,89 @@
+- name: Install xrandr on arch
+  become: true
+  ansible.builtin.package:
+    name: xorg-xrandr
+    state: latest
+  when: ansible_facts['distribution'] == "Arch" 
+
+- name: Install xrandr - Debian
+  become: true
+  ansible.builtin.package:
+    name: x11-xserver-utils
+    state: latest
+  when: ansible_facts['distribution'] == "Debian" or
+    ansible_facts['distribution'] == "Raspbian"
+
+- name: Install i3
+  become: true
+  ansible.builtin.package:
+    name: i3
+    state: latest
+  
+- name: Install polybar
+  become: true
+  ansible.builtin.package:
+    name: polybar
+    state: latest
+
+- name: Install rofi
+  become: true
+  ansible.builtin.package:
+    name: rofi
+    state: latest
+
+- name: Install dunst
+  become: true
+  ansible.builtin.package:
+    name: dunst
+    state: latest
+
+- name: Install picom
+  become: true
+  ansible.builtin.package:
+    name: picom
+    state: latest
+
+- name: Install feh
+  become: true
+  ansible.builtin.package:
+    name: feh
+    state: latest
+
+- name: Install playerctl
+  become: true
+  ansible.builtin.package:
+    name: playerctl
+    state: latest
+
+- name: Install alacritty - Not Raspbian
+  become: true
+  ansible.builtin.package:
+    name: alacritty
+    state: latest
+  when: ansible_facts['architecture'] != "aarch64"
+
+- name: Install sddm
+  become: true
+  ansible.builtin.package:
+    name: sddm
+    state: latest
+  notify: launch SDDM
+
+- name: Install fonts - Arch
+  become: true
+  ansible.builtin.package:
+    name: ttf-fira-code,ttf-jetbrains-mono
+    state: latest
+  when: ansible_facts['distribution'] == "Arch"
+
+- name: Install Fira Code - Debian
+  become: true
+  ansible.builtin.package:
+    name: fonts-firacode
+    state: latest
+
+- name: Install Jetbrains Mono - Debian
+  become: true
+  ansible.builtin.package:
+    name: fonts-jetbrains-mono
+    state: latest

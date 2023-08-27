@@ -1,0 +1,18 @@
+# This playbook is meant to provision a new computer.
+# Run with: ansible-playbook -i hosts.yml provision.raspberry.yml --ask-pass --ask-become-pass
+
+---
+- name: Provision a machine.
+  hosts: raspberry
+  become_method: sudo
+  hosts: raspberry
+  tasks:
+    - name: Core Setup
+      ansible.builtin.include_role:
+        name: core
+    - name: I3Wm Setup
+      ansible.builtin.include_role:
+        name: i3
+    - name: Dotfiles
+      ansible.builtin.include_role:
+        name: dotfiles

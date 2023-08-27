@@ -1,0 +1,31 @@
+- name: Get the username running the deploy
+  become: false
+  local_action: command whoami
+  register: user
+- debug: 
+    msg: "Default user is {{ user.stdout }}"
+# - name: Distribution
+  # debug:
+    # msg: "Distribution is {{ ansible_distribution }}"
+
+- name: Install git, SSH server and zsh
+  become: yes
+  ansible.builtin.package:
+    name: git,zsh,openssh-server,neofetch
+    state: latest
+- name: Enable SSH server
+  become: yes
+  ansible.builtin.systemd:
+    name: sshd
+    enabled: true
+    state: started
+- name: Disable Root Login
+  become: yes
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: yes
+  notify:
+    - restart ssh

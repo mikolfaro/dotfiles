@@ -1,0 +1,21 @@
+- name: Install keychain
+  ansible.builtin.package:
+    name: keychain
+    state: latest
+  become: true
+
+- name: Clone dot files
+  ansible.builtin.git:
+    repo: 'https://github.com/mikolfaro/dotfiles.git'
+    dest: '/home/{{ user.stdout }}/dotfiles'
+  
+- name: Setup dot files
+  ansible.builtin.copy:
+    src: '/home/{{ user.stdout }}/dotfiles/'
+    dest: '/home/{{ user.stdout }}/'
+    remote_src: true
+
+- name: Delete git directory
+  ansible.builtin.file:
+    path: '/home/{{ user.stdout }}/.git'
+    state: absent
