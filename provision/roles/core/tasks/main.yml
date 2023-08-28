@@ -4,15 +4,31 @@
   register: user
 - debug: 
     msg: "Default user is {{ user.stdout }}"
-# - name: Distribution
-  # debug:
-    # msg: "Distribution is {{ ansible_distribution }}"
+- name: Distribution
+  debug:
+    msg: "Distribution is {{ ansible_distribution }}"
 
 - name: Install git and zsh
   become: yes
   ansible.builtin.package:
     name: git,zsh,neofetch
     state: latest
+
+- name: Install cli tools
+  become: yes
+  ansible.builtin.package:
+    name: vim,wget,trash-cli
+    state: latest
+
+- name: Install less
+  become: yes
+  ansible.builtin.package:
+    name: less
+    state: latest
+
+- name: Change shell to ZSH
+  become: yes
+  shell: chsh -s $(which zsh) mikol
 
 - name: Install SSH server - Arch
   become: yes
@@ -35,6 +51,7 @@
     name: sshd
     enabled: true
     state: started
+
 - name: Disable Root Login
   become: yes
   lineinfile:
@@ -44,4 +61,4 @@
     state: present
     backup: yes
   notify:
-    - restart ssh
+    - Restart ssh
