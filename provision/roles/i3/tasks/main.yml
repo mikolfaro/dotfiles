@@ -72,7 +72,7 @@
 - name: Install fonts - Arch
   become: true
   ansible.builtin.package:
-    name: ttf-fira-code,ttf-jetbrains-mono
+    name: ttf-fira-code,ttf-jetbrains-mono,ttf-icomoon-feather
     state: latest
   when: ansible_facts['distribution'] == "Archlinux"
 
