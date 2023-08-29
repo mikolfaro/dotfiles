@@ -1,0 +1,30 @@
+- name: Install Fontforge
+  become: yes
+  ansible.builtin.package:
+    name: fontforge
+
+- name: Install gitflow
+  shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" gitflow-avh
+  args:
+    creates: /usr/bin/git-flow
+        
+- name: Install brave browser
+  shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" brave-bin
+  args:
+    creates: /usr/bin/brave
+
+- name: Install VSCodium
+  shell: echo Y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" vscodium-bin
+  args:
+    creates: /usr/bin/codium
+
+- name: Install nvm
+  ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+  args:
+    creates: /home/{{ user.stdout }}/.nvm/nvm.sh
+
+- name: Install rvm
+  ansible.builtin.shell: |
+    gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    \curl -sSL https://get.rvm.io | bash -s stable
+  # creates: /home/{{ user.stdout }}/.nvm/nvm.sh

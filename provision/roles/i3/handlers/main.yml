@@ -1,4 +1,4 @@
-- name: launch SDDM
+- name: Launch SDDM
   become: yes
   ansible.builtin.systemd:
     name: sddm

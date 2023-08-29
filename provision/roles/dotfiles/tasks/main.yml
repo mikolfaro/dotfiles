@@ -4,6 +4,12 @@
     state: latest
   become: true
 
+- name: Install Oh-my-zsh
+  become: no
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    creates: '/home/{{ user.stdout }}/.oh-my-zsh/oh-my-zsh.sh'
+
 - name: Clone dot files
   ansible.builtin.git:
     repo: 'https://github.com/mikolfaro/dotfiles.git'
@@ -18,4 +24,9 @@
 - name: Delete git directory
   ansible.builtin.file:
     path: '/home/{{ user.stdout }}/.git'
+    state: absent
+
+- name: Delete provision directory
+  ansible.builtin.file:
+    path: '/home/{{ user.stdout }}/provision'
     state: absent

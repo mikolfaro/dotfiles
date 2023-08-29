@@ -1,0 +1,19 @@
+- name: Install Firefox
+  become: yes
+  ansible.builtin.package:
+    name: firefox
+  
+- name: Install Firefox developer edition
+  become: yes
+  ansible.builtin.package:
+    name: firefox-developer-edition
+
+- name: Install Firefox developer edition
+  become: yes
+  ansible.builtin.package:
+    name: spotify-launcher
+
+- name: Install bash completion
+  become: yes
+  ansible.builtin.package:
+    name: bash-completion
