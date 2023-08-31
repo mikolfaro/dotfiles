@@ -12,6 +12,10 @@
     - name: I3Wm Setup
       ansible.builtin.include_role:
         name: i3
+    - name: Set default level to GUI
+      become: true
+      ansible.builtin.command: systemctl set-default
+        
     - name: Dotfiles
       ansible.builtin.include_role:
         name: dotfiles
