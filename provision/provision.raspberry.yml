@@ -14,8 +14,8 @@
         name: i3
     - name: Set default level to GUI
       become: true
-      ansible.builtin.command: systemctl set-default
-        
+      ansible.builtin.command: systemctl set-default graphical.target
+
     - name: Dotfiles
       ansible.builtin.include_role:
         name: dotfiles

@@ -9,36 +9,36 @@
     msg: "Distribution is {{ ansible_distribution }}"
 
 - name: Install git and zsh
-  become: yes
+  become: true
   ansible.builtin.package:
     name: git,zsh,neofetch
     state: latest
 
 - name: Install cli tools
-  become: yes
+  become: true
   ansible.builtin.package:
     name: vim,wget,trash-cli
     state: latest
 
 - name: Install less
-  become: yes
+  become: true
   ansible.builtin.package:
     name: less
     state: latest
 
 - name: Change shell to ZSH
-  become: yes
+  become: true
   shell: chsh -s $(which zsh) mikol
 
 - name: Install SSH server - Arch
-  become: yes
+  become: true
   ansible.builtin.package:
     name: openssh-server
     state: latest
   when: ansible_facts['distribution'] == "Arch" 
 
 - name: Install SSH server - Debian
-  become: yes
+  become: true
   ansible.builtin.package:
     name: openssh-server
     state: latest
@@ -46,7 +46,7 @@
     ansible_facts['distribution'] == "Raspbian"
 
 - name: Enable SSH server
-  become: yes
+  become: true
   ansible.builtin.systemd:
     name: sshd
     enabled: true
@@ -76,7 +76,7 @@
     ansible_facts['distribution'] == "Raspbian"
 
 - name: Disable Root Login
-  become: yes
+  become: true
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^PermitRootLogin'

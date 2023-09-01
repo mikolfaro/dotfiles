@@ -31,6 +31,9 @@
     name: rofi
     state: latest
 
+# Install rofi-calc
+# https://github.com/svenstaro/rofi-calc
+
 - name: Install dunst
   become: true
   ansible.builtin.package:
@@ -61,6 +64,13 @@
     name: alacritty
     state: latest
   when: ansible_facts['architecture'] != "aarch64"
+
+- name: Install kitty - Raspbian
+  become: true
+  ansible.builtin.package:
+    name: kitty
+    state: latest
+  when: ansible_facts['architecture'] == "aarch64"
 
 - name: Install sddm
   become: true

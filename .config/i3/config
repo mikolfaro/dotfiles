@@ -219,7 +219,6 @@ client.urgent           #FF5555             #FF5555            #F8F8F2          
 
 default_border pixel 4
 gaps inner 4px
-smart_gaps on
 
 # Configs
 exec_always xrandr --output HDMI-0 --off --output DP-0 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-1 --off --output DP-2 --mode 3840x2160 --pos 3840x0 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
