@@ -13,13 +13,19 @@
         name: core
 
     - name: Install yay deps
-      become: yes
+      become: true
       ansible.builtin.package:
         name: base-devel,git,go
         state: latest
 
     - name: Clone and build yay
-      shell: 'cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
+      shell: 'cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -s --noconfirm'
+      args:
+        creates: /tmp/yay
+
+    - name: Install yay
+      become: true
+      shell: yes | pacman -U /tmp/yay/yay-*.pkg.tar.zst
       args:
         creates: /usr/bin/yay
 
