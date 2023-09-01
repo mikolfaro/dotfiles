@@ -1,0 +1,44 @@
+- name: Install Wayland
+  become: true
+  ansible.builtin.package:
+    name: wayland,xorg-xwayland,xorg-xlsclients,qt5-wayland,glfw-wayland
+    state: latest
+
+- name: Install hyprland
+  become: true
+  ansible.builtin.package:
+    name: hyprland
+    state: latest
+  when: ansible_facts['distribution'] == "Archlinux"
+
+- name: Install waybar
+  become: true
+  ansible.builtin.package:
+    name: waybar
+    state: latest
+
+- name: Install wofi
+  become: true
+  ansible.builtin.package:
+    name: wofi
+    state: latest
+
+- name: Install alacritty - Not Raspbian
+  become: true
+  ansible.builtin.package:
+    name: alacritty
+    state: latest
+  when: ansible_facts['architecture'] != "aarch64"
+
+- name: Install pipewire
+  become: true
+  ansible.builtin.package:
+    name: xdg-desktop-portal-wlr,libpipewire
+    state: latest
+
+- name: Install sddm
+  become: true
+  ansible.builtin.package:
+    name: sddm
+    state: latest
+  notify: Launch SDDM

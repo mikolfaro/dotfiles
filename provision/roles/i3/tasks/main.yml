@@ -68,26 +68,3 @@
     name: sddm
     state: latest
   notify: Launch SDDM
-
-- name: Install fonts - Arch
-  become: true
-  ansible.builtin.package:
-    name: ttf-fira-code,ttf-jetbrains-mono,ttf-icomoon-feather
-    state: latest
-  when: ansible_facts['distribution'] == "Archlinux"
-
-- name: Install Fira Code - Debian
-  become: true
-  ansible.builtin.package:
-    name: fonts-firacode
-    state: latest
-  when: ansible_facts['distribution'] == "Debian" or
-    ansible_facts['distribution'] == "Raspbian"
-
-- name: Install Jetbrains Mono - Debian
-  become: true
-  ansible.builtin.package:
-    name: fonts-jetbrains-mono
-    state: latest
-  when: ansible_facts['distribution'] == "Debian" or
-    ansible_facts['distribution'] == "Raspbian"

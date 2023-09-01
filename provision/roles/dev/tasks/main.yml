@@ -4,19 +4,19 @@
     name: fontforge
 
 - name: Install gitflow
-  shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" gitflow-avh
-  args:
-    creates: /usr/bin/git-flow
-        
+  yay: 
+    name: gitflow-avh
+    state: latest
+
 - name: Install brave browser
-  shell: echo y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" brave-bin
-  args:
-    creates: /usr/bin/brave
+  yay: 
+    name: brave-bin
+    state: latest
 
 - name: Install VSCodium
-  shell: echo Y | yay -Sy --answerclean All --nodiffmenu --mflags "--noconfirm" vscodium-bin
-  args:
-    creates: /usr/bin/codium
+  yay: 
+    name: vscodium-bin
+    state: latest
 
 - name: Install nvm
   ansible.builtin.shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash

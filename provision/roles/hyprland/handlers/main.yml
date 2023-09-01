@@ -1,0 +1,6 @@
+- name: Launch SDDM
+  become: yes
+  ansible.builtin.systemd:
+    name: sddm
+    state: started
+    enabled: true

@@ -27,9 +27,13 @@
       ansible.builtin.include_role:
         name: dotfiles
 
-    - name: Install i3 wm
+    # - name: Install i3 wm
+    #   ansible.builtin.include_role:
+    #     name: i3
+
+    - name: Install Hyprland
       ansible.builtin.include_role:
-        name: i3
+        name: hyprland
 
     - name: Install apps
       ansible.builtin.include_role:
