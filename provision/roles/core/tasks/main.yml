@@ -82,6 +82,6 @@
     regexp: '^PermitRootLogin'
     line: "PermitRootLogin no"
     state: present
-    backup: yes
+    backup: true
   notify:
     - Restart ssh

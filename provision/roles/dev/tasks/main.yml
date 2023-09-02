@@ -1,5 +1,5 @@
 - name: Install Fontforge
-  become: yes
+  become: true
   ansible.builtin.package:
     name: fontforge
 
@@ -16,6 +16,11 @@
 - name: Install VSCodium
   yay: 
     name: vscodium-bin
+    state: latest
+
+- name: Install NeoVim
+  ansible.builtin.package:
+    name: neovim
     state: latest
 
 - name: Install nvm
