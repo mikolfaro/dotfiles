@@ -14,6 +14,12 @@
     name: git,zsh,neofetch
     state: latest
 
+- name: Install tree
+  become: true
+  ansible.builtin.package:
+    name: tree
+    state: latest
+
 - name: Install cli tools
   become: true
   ansible.builtin.package:
