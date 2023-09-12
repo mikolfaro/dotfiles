@@ -5,7 +5,7 @@
 
 ---
 - name: Provision a machine.
-  hosts: arch-dummy
+  hosts: arch-raspberry
   become_method: sudo
   tasks:
     - name: Core Setup
@@ -25,7 +25,7 @@
 
     - name: Install yay
       become: true
-      shell: yes | pacman -U /tmp/yay/yay-*.pkg.tar.zst
+      shell: yes | pacman -U /tmp/yay/yay-*.pkg.tar.*
       args:
         creates: /usr/bin/yay
 
@@ -33,18 +33,22 @@
       ansible.builtin.include_role:
         name: dotfiles
 
-    # - name: Install i3 wm
-    #   ansible.builtin.include_role:
-    #     name: i3
+    - name: Remove i3-gaps
+      become: true
+      ansible.builtin.package: 
+        name: i3-gaps
+        state: absent
 
-    - name: Install Hyprland
+    - name: Install i3 wm
       ansible.builtin.include_role:
-        name: hyprland
+        name: i3
 
     - name: Install apps
       ansible.builtin.include_role:
         name: apps
 
-    - name: Install dev tools
-      ansible.builtin.include_role:
-        name: dev
+    - name: Install neovim
+      become: true
+      ansible.builtin.package: 
+        name: neovim
+        state: present

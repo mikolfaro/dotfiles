@@ -14,7 +14,7 @@
     - debug: 
         msg: "Default user is {{ user.stdout }}"
     - name: Install git, SSH server and zsh
-      become: yes
+      become: true
       ansible.builtin.package:
         name: git,zsh,openssh-server
         state: present
@@ -24,45 +24,45 @@
         name: "{{ user.stdout }}"
         shell: "/bin/zsh"
     - name: Enable SSH server
-      become: yes
+      become: true
       ansible.builtin.systemd:
         name: sshd
         enabled: true
         state: started
     - name: Disable Root Login
-      become: yes
+      become: true
       lineinfile:
         dest: /etc/ssh/sshd_config
         regexp: '^PermitRootLogin'
         line: "PermitRootLogin no"
         state: present
-        backup: yes
+        backup: true
       notify:
         - restart ssh
 
     - debug:
         msg: Setup dev tools
     - name: Install Firefox Dev Edition repository
-      become: yes
+      become: true
       community.general.copr:
         chroot: fedora-{{ansible_distribution_version}}-{{ansible_architecture}} # Nobara is Fedora
         name: the4runner/firefox-dev
         state: enabled
     - name: Install gitflow repository
-      become: yes
+      become: true
       community.general.copr:
         chroot: fedora-{{ansible_distribution_version}}-{{ansible_architecture}} # Nobara is Fedora
         name: elegos/gitflow
         state: enabled
     - name: Add Remi's PHP repository
-      become: yes
+      become: true
       ansible.builtin.dnf:
         name: https://rpms.remirepo.net/fedora/remi-release-{{ansible_distribution_version}}.rpm
         state: present
     # TODO Setup Codium repository
     # https://vscodium.com/#install
     - name: Install LEMP stack, dev browsers, Ulauncher, VSCode
-      become: yes
+      become: true
       ansible.builtin.dnf:
         name:
           - chromium
@@ -111,13 +111,13 @@
     #     msg: Fix NVIDIA GPU
     
     # - name: Install nvidia drivers
-    #   become: yes
+    #   become: true
     #   ansible.builtin.package:
     #     name: 
     #       - akmod-nvidia
     #     state: present
     # - name: Blacklist noveau module
-    #   become: yes
+    #   become: true
     #   community.general.modprobe:
     #     name: noveau
     #     state: absent

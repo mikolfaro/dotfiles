@@ -16,7 +16,7 @@
 - name: Install i3
   become: true
   ansible.builtin.package:
-    name: i3
+    name: i3-wm
     state: latest
   
 - name: Install polybar
