@@ -7,6 +7,9 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- Nvin Web Devicons
+    use 'nvim-tree/nvim-web-devicons'
+
     -- Search
     use {
         "nvim-telescope/telescope.nvim", tag = '0.1.2',
@@ -33,6 +36,12 @@ return require('packer').startup(function(use)
     -- Git plugin
     use ({ 'tpope/vim-fugitive' })
 
+    -- Status bar
+    use ({
+        'nvim-lualine/lualine.nvim', 
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    })
+
     -- Autocomplete
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -47,6 +56,9 @@ return require('packer').startup(function(use)
             {'hrsh7th/nvim-cmp'},     -- Required
             {'hrsh7th/cmp-nvim-lsp'}, -- Required
             {'L3MON4D3/LuaSnip'},     -- Required
+
+            -- Code formatter
+            {'lukas-reineke/lsp-format.nvim'}      -- Optional
         }
     }
 

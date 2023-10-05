@@ -24,11 +24,25 @@ require('mason-lspconfig').setup({
         'jsonls',
         'rust_analyzer',
         'tsserver',
+        'sqlls',
+        'volar',
     },
     handlers = {
         lsp.default_setup,
     }
 })
+
+local lspconfig = require('lspconfig')
+local lsp_format = require("lsp-format").on_attach
+lspconfig.tsserver.setup({
+    root_dir = lspconfig.util.root_pattern("package.json"),
+    on_attach = lsp_format })
+
+lspconfig.volar.setup({
+    on_attach = lsp_format
+})
+
+-- Autoformatter
 
 --[[
  HTML LSP support
@@ -37,3 +51,4 @@ require('mason-lspconfig').setup({
  json LSP support
  > npm i -g vscode-langservers-extracted
 ]]--
+
