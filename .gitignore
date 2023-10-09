@@ -1,3 +1,4 @@
 .config/github-copilot
+.config/nvim/plugin/packer_compiled.lua
 *history
 hosts.yml

@@ -21,14 +21,14 @@ return require('packer').startup(function(use)
     -- Syntax highlight
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 
-    -- Theme
+    -- Dracula Theme
     use ({ 
         'Mofiqul/dracula.nvim',
-        as = 'dracula',
-        config = function ()
-            vim.cmd('colorscheme dracula')
-        end
+        as = 'dracula'
     })
+
+    -- Darcula theme
+    use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
 
     -- Changes history
     use 'mbbill/undotree'
@@ -62,6 +62,14 @@ return require('packer').startup(function(use)
         }
     }
 
+    -- GitHub Copilot
+    use { "zbirenbaum/copilot.lua" }
+    use {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+    }
+
+    -- Auto save
     use({
         "Pocco81/auto-save.nvim",
         config = function ()
