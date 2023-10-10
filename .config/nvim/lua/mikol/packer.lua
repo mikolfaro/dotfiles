@@ -36,6 +36,11 @@ return require('packer').startup(function(use)
     -- Git plugin
     use ({ 'tpope/vim-fugitive' })
 
+    -- Git diff tool
+    use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+      require('git-conflict').setup()
+    end}
+
     -- Status bar
     use ({
         'nvim-lualine/lualine.nvim', 
