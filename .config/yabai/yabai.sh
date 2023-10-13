@@ -22,4 +22,4 @@ yabai -m config focus_follows_mouse autoraise
 
 # Ignore this windows
 yabai -m rule --add app="^System Preferences$" manage=off
-
+yabai -m rule --add app="^Digital Colour Meter$" manage=off
