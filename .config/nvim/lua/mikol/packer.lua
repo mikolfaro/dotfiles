@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
     })
 
     -- Darcula theme
-    use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
+    use { "doums/darcula" }
 
     -- Changes history
     use 'mbbill/undotree'
