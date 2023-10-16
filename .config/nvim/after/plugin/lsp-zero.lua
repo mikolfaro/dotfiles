@@ -33,14 +33,14 @@ require('mason-lspconfig').setup({
 })
 
 local lspconfig = require('lspconfig')
-local lsp_format = require("lsp-format").on_attach
+-- local lsp_format = require("lsp-format").on_attach
 lspconfig.tsserver.setup({
     root_dir = lspconfig.util.root_pattern("package.json"),
     on_attach = lsp_format })
 -- VueJS
-lspconfig.volar.setup({
-    on_attach = lsp_format
-})
+-- lspconfig.volar.setup({
+--    on_attach = lsp_format
+-- })
 
 --[[
  HTML LSP support
