@@ -33,6 +33,14 @@ return require('packer').startup(function(use)
     -- Changes history
     use 'mbbill/undotree'
 
+    -- Toggle comments
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
+
     -- Git plugin
     use ({ 'tpope/vim-fugitive' })
 
