@@ -37,9 +37,7 @@ return require('packer').startup(function(use)
     use ({ 'tpope/vim-fugitive' })
 
     -- Git diff tool
-    use {'akinsho/git-conflict.nvim', tag = "*", config = function()
-      require('git-conflict').setup()
-    end}
+    use "sindrets/diffview.nvim"
 
     -- Status bar
     use ({
