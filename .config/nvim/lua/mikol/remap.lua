@@ -24,9 +24,14 @@ vim.keymap.set("n", "<Down>", "<Down>zz")
 vim.keymap.set("n", "<leader>y", "\"+y");
 vim.keymap.set("v", "<leader>y", "\"+y");
 vim.keymap.set("n", "<leader>Y", "\"+Y");
+vim.keymap.set("n", "<leader>p", "\"+p");
 
 -- Disable shortcut near quit
 vim.keymap.set("n", "Q", "<nop>");
+
+-- Show diagnostics
+local telescope = require("telescope.builtin");
+vim.keymap.set("n", "<C-x>d", telescope.diagnostics)
 
 -- Useful commands
 -- k : Show symbol info popup
