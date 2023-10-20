@@ -3,7 +3,17 @@
 # For a more advanced configuration example see my dotfiles:
 # https://github.com/FelixKratz/dotfiles
 
+FONT="JetBrainsMono Nerd Font"
+
+GREY="0xffffffff"
+GREEN="0xffa9ff00"
+BLACK="0xff000000"
+WHITE="0xffffffff"
+POPUP_BACKGROUND_COLOR="0x44ffffff"
+
+CONFIG_DIR="$HOME/.config/sketchybar"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
 
 ##### Bar Appearance #####
 # Configuring the general appearance of the bar, these are only some of the
@@ -26,9 +36,9 @@ sketchybar --bar height=28        \
 # For a full list of all available item properties see:
 # https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default icon.font="JetBrainsMono Nerd Font:Bold:16.0"  \
+sketchybar --default icon.font="$FONT:Bold:16.0"  \
                      icon.color=0xffffffff                 \
-                     label.font="JetBrainsMono Nerd Font:Bold:12.0" \
+                     label.font="$FONT:Bold:12.0" \
                      label.color=0xffffffff                \
                      padding_left=5                        \
                      padding_right=5                       \
@@ -42,7 +52,7 @@ sketchybar --default icon.font="JetBrainsMono Nerd Font:Bold:16.0"  \
 # https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
 # to indicate active and available mission control spaces
 
-LEFT_SPACE_ICONS=("1 󰯗 " "3" "5" "7" "9 󰝚 ")
+LEFT_SPACE_ICONS=("1" "3" "5" "7" "9")
 for i in "${!LEFT_SPACE_ICONS[@]}"
 do
   sid=$(($i+1))
@@ -91,6 +101,9 @@ sketchybar --add item space_separator left                         \
                                  icon.drawing=off                  \
            --subscribe front_app front_app_switched
 
+
+##### Adding Centre Items #####
+
 ##### Adding Right Items #####
 # In the same way as the left items we can add items to the right side.
 # Additional position (e.g. center) are available, see:
@@ -120,6 +133,8 @@ sketchybar --add item clock right                              \
            --set battery script="$PLUGIN_DIR/battery.sh"       \
                          update_freq=120                       \
            --subscribe battery system_woke power_source_change
+
+source "$ITEM_DIR/spotify.sh"
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to
