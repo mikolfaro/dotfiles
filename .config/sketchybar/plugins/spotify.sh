@@ -155,5 +155,3 @@ case "$SENDER" in
   *) update
   ;;
 esac
-
-echo "Info: $INFO"
