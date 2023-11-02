@@ -1,0 +1,20 @@
+- name: Gather facts
+  ansible.builtin.gather_facts:
+
+- name: Install Sway
+  become: true
+  ansible.builtin.package:
+    name: sway
+    state: latest
+
+- name: Install waybar
+  become: true
+  ansible.builtin.package:
+    name: waybar
+    state: latest
+
+- name: Install wofi
+  become: true
+  ansible.builtin.package:
+    name: wofi
+    state: latest
