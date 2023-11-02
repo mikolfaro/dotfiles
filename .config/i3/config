@@ -128,7 +128,6 @@ set $ws10 "10 󰝚 "
 set $leftMonitor "DP-0"
 set $rightMonitor "DP-2"
 
-
 # assign workspaces to monitors
 workspace $ws1 output $leftMonitor
 workspace $ws3 output $leftMonitor
