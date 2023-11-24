@@ -33,6 +33,10 @@ vim.keymap.set("n", "Q", "<nop>");
 local telescope = require("telescope.builtin");
 vim.keymap.set("n", "<C-x>d", telescope.diagnostics)
 
+-- Open database
+local dbee = require("dbee")
+vim.keymap.set("n", "<leader>sql", dbee.open)
+
 -- Useful commands
 -- k : Show symbol info popup
 -- <Leader>gs : Open git (Fugitive plugin)
