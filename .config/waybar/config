@@ -8,22 +8,16 @@
         "max-length": 50
     },
     "clock": {
-        "format": "  {:%Y-%m-%d %H:%M:%S}",
+        "format": " {:%y-%m-%d %H:%M:%S}",
     },
-    "pulseaudio: {
-        format": "{icon} {volume}% {format_source}",
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-muted": "󰝟  {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
