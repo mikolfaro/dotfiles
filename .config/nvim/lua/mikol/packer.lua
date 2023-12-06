@@ -41,6 +41,12 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- Rest API Client
+    use {
+        "rest-nvim/rest.nvim",
+        requires = { "nvim-lua/plenary.nvim" },
+    }
+
     -- Git plugin
     use ({ 'tpope/vim-fugitive' })
 

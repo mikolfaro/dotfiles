@@ -26,6 +26,11 @@ vim.keymap.set("v", "<leader>y", "\"+y");
 vim.keymap.set("n", "<leader>Y", "\"+Y");
 vim.keymap.set("n", "<leader>p", "\"+p");
 
+-- Run HTTP request
+vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim");
+-- Show curl command of HTTP request
+vim.keymap.set("n", "<leader>rc", "<Plug>RestNvimPreview");
+
 -- Disable shortcut near quit
 vim.keymap.set("n", "Q", "<nop>");
 
