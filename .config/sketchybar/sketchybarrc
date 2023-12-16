@@ -134,11 +134,11 @@ sketchybar --add item clock right                              \
                          update_freq=120                       \
            --subscribe battery system_woke power_source_change
 
-sketchybar --add item vpn right                                \
-           --set vpn     update_freq=20                        \
-                         script="$PLUGIN_DIR/vpn.sh"           \
-                         icon=                                \
-                         icon.drawing=off
+# sketchybar --add item vpn right                                \
+#            --set vpn     update_freq=20                        \
+#                          script="$PLUGIN_DIR/vpn.sh"           \
+#                          icon=                                \
+#                          icon.drawing=off
 
 source "$ITEM_DIR/spotify.sh"
 
