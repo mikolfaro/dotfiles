@@ -22,7 +22,7 @@ return require('packer').startup(function(use)
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 
     -- Dracula Theme
-    use ({ 
+    use ({
         'Mofiqul/dracula.nvim',
         as = 'dracula'
     })
@@ -55,7 +55,7 @@ return require('packer').startup(function(use)
 
     -- Status bar
     use ({
-        'nvim-lualine/lualine.nvim', 
+        'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     })
 
